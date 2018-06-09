@@ -1,0 +1,60 @@
+<ImageFilePaths>
+    <Resources>
+        <GUI>
+            <background>Resources/GUI/Background.gif</background>
+            <heartEmpty>Resources/GUI/Health(Empty).gif</heartEmpty>
+            <heartFull>Resources/GUI/Health(Full).gif</heartFull>
+            <timerFrame>Resources/GUI/Timer_Frame.gif</timerFrame>
+            <timerCase>Resources/GUI/Timer_Case.gif</timerCase>
+        </GUI>
+
+        <Lust>
+            <CreepAttack>
+                <Creep>
+                    <lustCreep>Resources/Lust/CreepAttack/Creep/Lust_Creep.gif</lustCreep>
+                </Creep>
+                <FaceAnimation>
+                    <BSSA>Resources/Lust/CreepAttack/FaceAnimation/BSSA.gif</BSSA>
+                </FaceAnimation>
+            </CreepAttack>
+
+            <HeartProjectileAttack>
+                <FaceAnimation>
+                    <bossKissing>Resources/Lust/HeartProjectileAttack/FaceAnimation/Kiss_Attack.gif</bossKissing>
+                </FaceAnimation>
+                <Projectile>
+                    <bossProjectile>Resources/Lust/HeartProjectileAttack/Projectile/sprite_Heart_Projectile0.png</bossProjectile>
+                </Projectile>
+            </HeartProjectileAttack>
+
+            <Resting>
+                <bossResting>Resources/Lust/Resting/Boss_Resting.gif</bossResting>
+            </Resting>
+        </Lust>
+
+        <MainCharacter>
+            <Bullet>
+                <bulletLeft>Resources/MainCharacter/Bullet/Bullet_Left.gif</bulletLeft>
+                <bulletRight>Resources/MainCharacter/Bullet/Bullet_Right.gif</bulletRight>
+            </Bullet>
+
+            <Resting>
+                <mainRestingLeft>Resources/MainCharacter/Resting/Main_Resting_Left.gif</mainRestingLeft>
+                <mainRestingRight>Resources/MainCharacter/Resting/Main_Resting_Right.gif</mainRestingRight>
+            </Resting>
+
+            <Running>
+                <mainRunningLeft>Resources/MainCharacter/Running/Main_Running_Left.gif</mainRunningLeft>
+                <mainRunningRight>Resources/MainCharacter/Running/Main_Running_Right.gif</mainRunningRight>
+            </Running>
+
+            <Shield>
+                <mCShield>Resources/MainCharacter/Shield/Main_Shielding.gif</mCShield>
+            </Shield>
+        </MainCharacter>
+
+
+
+    </Resources>
+
+</ImageFilePaths>
