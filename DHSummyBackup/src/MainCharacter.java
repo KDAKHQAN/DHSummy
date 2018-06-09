@@ -3,13 +3,32 @@ import java.awt.event.*;
 
 class MainCharacter extends GameThing {
 
-    private boolean isJump, isLeft, isRight, isShield, atTop;
-    private byte hp = 3, jumpHeight = 35;
-    private Timer jumpTimer;
+    private boolean isJump, isLeft, isRight, isShield, atTop, isShoot;
+    private byte direction = 1, jumpHeight = 35, counter = 0;
+    private Timer jumpTimer,shootLimit;
 
-    MainCharacter(JFrame home) {
+    MainCharacter(JFrame home, GameThing boss) {
         super(home, 200, home.getHeight()- 155, Resource.mainRestingRight);
+        HP = 3;
 
+        shootLimit = new Timer (500, e-> {
+            counter ++;
+            if(counter == 100000){
+                counter = 0;
+                isShoot = true;
+                System.out.println("X");
+            }
+            if(isShoot) {
+                if (direction == -1) {
+                    new Projectile(home, this, getX() - Resource.bulletLeft.getIconWidth(), -15, Resource.bulletLeft, boss);
+                    isShoot = false;
+                }
+                if (direction == 1) {
+                    new Projectile(home, this, getX() + getWidth() - 10, 15, Resource.bulletRight, boss);
+                    isShoot = false;
+                }
+            }
+        });
         setControls(home.getRootPane());
 
         /*heart1.setIcon(Resource.heartFull);
@@ -33,11 +52,17 @@ class MainCharacter extends GameThing {
         if (isRight) {
             moveRight();
         }
+        if(isShoot){
+            shoot();
+        }
 //Pause screen code?
     }
 
     private void jump() {
         jumpTimer.start();
+    }
+    private void shoot(){
+        shootLimit.start();
     }
 
     private void jumping() {
@@ -65,6 +90,7 @@ class MainCharacter extends GameThing {
 
     private void moveLeft() {
         if (!isRight && !isShield) {
+            direction = -1;
             setIcon(Resource.mainRunningLeft);
             setLocation(getBounds().x - 7, getBounds().y);
         }
@@ -72,6 +98,7 @@ class MainCharacter extends GameThing {
 
     private void moveRight() {
         if (!isLeft && !isShield) {
+            direction = 1;
             setIcon(Resource.mainRunningRight);
             setLocation(getBounds().x + 7, getBounds().y);
         }
@@ -91,6 +118,10 @@ class MainCharacter extends GameThing {
         isShield = true;
         setIcon(Resource.mCShield);
     }
+    private void pressedShoot(){
+
+    }
+    private void releasedShoot(){}
 
     void setControls(JComponent RootPane) {
 
@@ -103,6 +134,8 @@ class MainCharacter extends GameThing {
         addKeyBinder(RootPane, KeyEvent.VK_W, "go up", pressedW -> isJump = true, releasedW -> isJump = false);
 
         addKeyBinder(RootPane, KeyEvent.VK_S, "go block", pressedS -> pressedShield(), releasedS -> releasedShield());
+
+        addKeyBinder(RootPane, KeyEvent.VK_ENTER, "shoot", pressedEnter -> isShoot = true, releasedEnter -> releasedShoot());
     }
 
     void releasedLeft() {
@@ -138,11 +171,11 @@ class MainCharacter extends GameThing {
 
     }
 
-    byte getHP() {
-        return hp;
+    int getHP() {
+        return HP;
     }
 
     public void setHP(byte health) {
-        hp = health;
+        HP = health;
     }
 }

@@ -17,13 +17,12 @@ public class Game extends SuperFrame{
     Game() {
         super();
         setGame();
-
         makeBackground();
     }
 
     private void setMainCharacterControls(){
         mainCharacter.move();
-        checkHP((byte) 2);
+        checkHP(mainCharacter.HP);
     }
 
     private void setTimer(){
@@ -64,16 +63,16 @@ public class Game extends SuperFrame{
     }
 
     private void setGame(){
-        mainCharacter = new MainCharacter(this);
+        huShawn = new Boss(this );
+        mainCharacter = new MainCharacter(this,huShawn);
         playerControls = e -> mainCharacter.setControls(this.getRootPane());
 
         mainCharacterMove = new Timer(30, e -> {setMainCharacterControls();});
         mainCharacterMove.start();
 
-        huShawn = new Boss(this );
     }
 
-    private void checkHP(byte hp){ //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
+    private void checkHP(int hp){ //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
 
         switch (hp){
 
@@ -90,7 +89,8 @@ public class Game extends SuperFrame{
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Game game = new Game();
-    }
+        StartingWindow test = new StartingWindow();
+    }*/
 }

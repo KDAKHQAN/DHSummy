@@ -15,13 +15,14 @@ import java.io.IOException;
         static ImageIcon heartFull = new ImageIcon(Resource.class.getResource(getPic("heartFull")));
         static ImageIcon heartEmpty = new ImageIcon(Resource.class.getResource(getPic("heartEmpty")));
         static ImageIcon timerFrame = new ImageIcon (Resource.class.getResource(getPic("timerFrame")));
-        static ImageIcon timerCase = new ImageIcon(Resource.class.getResource(getPic("timerCase")));
 
         static ImageIcon mainRestingRight = new ImageIcon(Resource.class.getResource(getPic("mainRestingRight")));
         static ImageIcon mainRestingLeft = new ImageIcon(Resource.class.getResource(getPic("mainRestingLeft")));
         static ImageIcon mainRunningRight = new ImageIcon(Resource.class.getResource(getPic("mainRunningRight")));
         static ImageIcon mainRunningLeft = new ImageIcon(Resource.class.getResource(getPic("mainRunningLeft")));
         static ImageIcon mCShield = new ImageIcon(Resource.class.getResource(getPic("mCShield")));
+        static ImageIcon bulletRight = new ImageIcon(Resource.class.getResource(getPic("bulletRight")));
+        static ImageIcon bulletLeft = new ImageIcon(Resource.class.getResource(getPic("bulletLeft")));
 
         static ImageIcon bossRest = new ImageIcon(Resource.class.getResource(getPic("bossResting"))); //TODO: FIND GIF OF SHAWN
         static ImageIcon creepFace = new ImageIcon(Resource.class.getResource(getPic("BSSA")));

@@ -2,7 +2,7 @@
 import javax.swing.*;
 
 public class GameThing extends JLabel{
-
+    int HP;
     JFrame home;
 
     GameThing(JFrame house, int xLoc, int yLoc, ImageIcon picture){
@@ -18,7 +18,9 @@ public class GameThing extends JLabel{
         home.add(this, 0);
     }
 
-    protected boolean collides(GameThing collidingWith){
-        return (getLocation().x+getBounds().width == collidingWith.getLocation().x && getLocation().y+getBounds().height == collidingWith.getLocation().y);
+    protected void collides(GameThing collidingWith){
+        if (this.getX()+this.getWidth() == collidingWith.getX()) {
+            collidingWith.HP--;//return (getLocation().x+getBounds().width == collidingWith.getLocation().x && getLocation().y+getBounds().height == collidingWith.getLocation().y);
+        }
     }
 }
