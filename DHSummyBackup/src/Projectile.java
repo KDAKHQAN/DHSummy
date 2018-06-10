@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class Projectile extends GameThing{
-    Timer projAct;
+    private Timer projAct;
     Projectile(JFrame home, MainCharacter MC, int xLoc, int xVel, ImageIcon bullet,GameThing boss) {
         super(home,xLoc, MC.getY()+72, bullet);
         collides(boss);
@@ -16,8 +16,8 @@ public class Projectile extends GameThing{
             }
             if(getX()<0){
                 home.remove(this);
+                System.out.println(getX());
             }
-            System.out.println(getX());
         });
         projAct.start();
     }

@@ -1,6 +1,5 @@
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import sun.net.www.ParseUtil;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;

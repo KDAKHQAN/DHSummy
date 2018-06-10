@@ -16,9 +16,8 @@ class MainCharacter extends GameThing {
             if(counter == 100000){
                 counter = 0;
                 isShoot = true;
-                System.out.println("X");
             }
-            if(isShoot) {
+            if(isShoot && !isShield) {
                 if (direction == -1) {
                     new Projectile(home, this, getX() - Resource.bulletLeft.getIconWidth(), -15, Resource.bulletLeft, boss);
                     isShoot = false;
@@ -44,13 +43,13 @@ class MainCharacter extends GameThing {
             jump();
         }
         if (isLeft) {
-            moveLeft();
+            Left(isRight, isShield);
         }
         if (isShield) {
-            shielding();
+            Shield(isRight,isLeft);
         }
         if (isRight) {
-            moveRight();
+            Right(isLeft, isShield);
         }
         if(isShoot){
             shoot();
@@ -61,10 +60,6 @@ class MainCharacter extends GameThing {
     private void jump() {
         jumpTimer.start();
     }
-    private void shoot(){
-        shootLimit.start();
-    }
-
     private void jumping() {
 
         if (jumpHeight == 0) {
@@ -85,70 +80,68 @@ class MainCharacter extends GameThing {
         }
     }
 
-    private void shielding() {
+    private void Left() {
+        setIcon(Resource.mainRestingLeft);
+        isLeft = false;
     }
 
-    private void moveLeft() {
-        if (!isRight && !isShield) {
+    private void Left(boolean right, boolean shield) {
+        if (!right && !shield) {
             direction = -1;
             setIcon(Resource.mainRunningLeft);
             setLocation(getBounds().x - 7, getBounds().y);
         }
     }
 
-    private void moveRight() {
-        if (!isLeft && !isShield) {
+    private void Right() {
+        setIcon(Resource.mainRestingRight);
+        isRight = false;
+    }
+
+    private void Right(boolean left, boolean shield) {
+        if (!left && !shield) {
             direction = 1;
             setIcon(Resource.mainRunningRight);
             setLocation(getBounds().x + 7, getBounds().y);
         }
     }
 
-    private void releasedShield() {
+    private void Shield() {
         isShield = false;
         if (isLeft) {
             setIcon(Resource.mainRestingLeft);
         }
-        setIcon(Resource.mainRunningRight);
+        setIcon(Resource.mainRestingRight);
     }
 
-    private void pressedShield() {
-        isRight = false;
-        isLeft = false;
-        isShield = true;
+    private void Shield(boolean right, boolean left) {
+        right = false;
+        left = false;
         setIcon(Resource.mCShield);
     }
-    private void pressedShoot(){
 
+    private void shoot(){
+        shootLimit.start();
     }
+
     private void releasedShoot(){}
 
     void setControls(JComponent RootPane) {
 
         addKeyBinder(RootPane, KeyEvent.VK_ESCAPE, "escape", escape -> System.exit(0), null);
 //TODO: 29th May 2018: FIND MORE EFFICIENT METHOD TO STOP MOVING AND SET ICONS
-        addKeyBinder(RootPane, KeyEvent.VK_A, "go left", pressedL -> isLeft = true, releasedL -> releasedLeft());
+        addKeyBinder(RootPane, KeyEvent.VK_A, "go left", pressedL -> isLeft = true, releasedL -> Left());
 
-        addKeyBinder(RootPane, KeyEvent.VK_D, "go right", pressedR -> isRight = true, releasedR -> releasedRight());
+        addKeyBinder(RootPane, KeyEvent.VK_D, "go right", pressedR -> isRight = true, releasedR -> Right());
 
         addKeyBinder(RootPane, KeyEvent.VK_W, "go up", pressedW -> isJump = true, releasedW -> isJump = false);
 
-        addKeyBinder(RootPane, KeyEvent.VK_S, "go block", pressedS -> pressedShield(), releasedS -> releasedShield());
+        addKeyBinder(RootPane, KeyEvent.VK_S, "go block", pressedS -> isShield = true, releasedS -> Shield());
 
         addKeyBinder(RootPane, KeyEvent.VK_ENTER, "shoot", pressedEnter -> isShoot = true, releasedEnter -> releasedShoot());
     }
 
-    void releasedLeft() {
-        setIcon(Resource.mainRestingLeft);
-        isLeft = false;
-    }
-
-    void releasedRight() {
-        setIcon(Resource.mainRestingRight);
-        isRight = false;
-    }
-
-    void addKeyBinder(JComponent jComponent, int keyCode, String id, ActionListener actionListener, ActionListener releasedListener) {
+    private void addKeyBinder(JComponent jComponent, int keyCode, String id, ActionListener actionListener, ActionListener releasedListener) {
 
         InputMap inputMap = jComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = jComponent.getActionMap();

@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartingWindow extends SuperFrame {
-    JLabel title = new JLabel("DH SUMMY");
-    JButton start = new JButton("Start"), score = new JButton("Score"), quit = new JButton("Quit");
-    ActionListener quitAct = new ActionListener() {
+    private JLabel title = new JLabel("DH SUMMY");
+    private JButton start = new JButton("Start"), score = new JButton("Score"), quit = new JButton("Quit");
+    private ActionListener quitAct = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }

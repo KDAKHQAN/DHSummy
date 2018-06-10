@@ -6,12 +6,9 @@ import java.awt.event.ActionListener;
 public class Game extends SuperFrame{
 
     private int min, sec, mill;
-    private Timer mainCharacterMove, scoreTimer;
-    private ActionListener playerControls;
     private JLabel backGround = new JLabel();
     private JLabel timerFrame = new JLabel(min + ":" + sec + ":" + mill);
     private MainCharacter mainCharacter;
-    private Boss huShawn;
     private GameThing heart1, heart2, heart3;
 
     Game() {
@@ -32,7 +29,7 @@ public class Game extends SuperFrame{
         timerFrame.setHorizontalTextPosition(JLabel.CENTER);
         timerFrame.setBounds(getWidth()-Resource.timerFrame.getIconWidth(), 0,Resource.timerFrame.getIconWidth(),Resource.timerFrame.getIconHeight() );
         add(timerFrame);
-        scoreTimer = new Timer(10, e -> {
+        Timer scoreTimer = new Timer(10, e -> {
             mill++;
             if(mill == 100){
                 mill = 0;
@@ -63,11 +60,10 @@ public class Game extends SuperFrame{
     }
 
     private void setGame(){
-        huShawn = new Boss(this );
+        Boss huShawn = new Boss(this );
         mainCharacter = new MainCharacter(this,huShawn);
-        playerControls = e -> mainCharacter.setControls(this.getRootPane());
 
-        mainCharacterMove = new Timer(30, e -> {setMainCharacterControls();});
+        Timer mainCharacterMove = new Timer(30, e -> {setMainCharacterControls();});
         mainCharacterMove.start();
 
     }
