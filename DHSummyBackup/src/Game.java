@@ -2,91 +2,120 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-
-public class Game extends SuperFrame{
-
+/**
+ * Game Class contains all the parts and objects needed to run the application (game logic)
+ */
+public class Game extends SuperFrame {
+    //Declaration of variables used in Game class
     private int min, sec, mill;
     private JLabel backGround = new JLabel();
     private JLabel timerFrame = new JLabel(min + ":" + sec + ":" + mill);
     private MainCharacter mainCharacter;
+    private Boss huShawn;
     private GameThing heart1, heart2, heart3;
 
+    //Default constructor inherits superclass (SuperFrame) to create the jframe then add all of the components needed for the game
     Game() {
         super();
         setGame();
         makeBackground();
+        setMainCharacterMove();
     }
 
-    private void setMainCharacterControls(){
+    //Method that calls the movement code from the MainCharacter class, used to make the main character move
+    private void setMainCharacterControls() {
         mainCharacter.move();
-        checkHP(mainCharacter.HP);
+        checkMCHP(mainCharacter.HP);
+        checkBOSSHP(huShawn.HP);
     }
 
-    private void setTimer(){
+    //Method that creates and starts timer seen in the top right corner of the screen, used for scoring purposes
+    private void setTimer() {
         timerFrame.setFont(new Font("Monospaced", Font.BOLD, 18));
         timerFrame.setForeground(Color.RED);
         timerFrame.setIcon(Resource.timerFrame);
         timerFrame.setHorizontalTextPosition(JLabel.CENTER);
-        timerFrame.setBounds(getWidth()-Resource.timerFrame.getIconWidth(), 0,Resource.timerFrame.getIconWidth(),Resource.timerFrame.getIconHeight() );
+        timerFrame.setBounds(getWidth() - Resource.timerFrame.getIconWidth(), 0, Resource.timerFrame.getIconWidth(), Resource.timerFrame.getIconHeight());
         add(timerFrame);
+        scoreTimer();
+
+    }
+
+    //Method that adds the non object GUI to the frame, adds health indicators (hearts), timer and background
+    private void makeBackground() {
+        setHearts();
+        setTimer();
+        backGround.setIcon(Resource.background);
+        backGround.setBounds(0, 0, getWidth(), getHeight());
+        add(backGround);
+
+    }
+
+    //Creates the hearts and adds them onto the JFrame
+    private void setHearts() {
+        heart1 = new GameThing(this, 0, 0, Resource.heartFull);
+        heart2 = new GameThing(this, Resource.heartFull.getIconWidth(), 0, Resource.heartFull);
+        heart3 = new GameThing(this, 2 * Resource.heartFull.getIconWidth(), 0, Resource.heartFull);
+    }
+
+    //Method that creates and adds the objects to the game (boss and maincharacter) and what they need to work
+    private void setGame() {
+        mainCharacter = new MainCharacter(this);
+        huShawn = new Boss(this);
+        mainCharacter.setBoss(huShawn);
+        huShawn.setMC(mainCharacter);
+        huShawn.Attack();
+    }
+
+    //Method that checks the maincharacter's HP and adjusts the health indicators accordingly (hearts become empty if health is missing) and insures that the hp variable is within the proper range
+    private void checkMCHP(int hp) { //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
+
+        switch (hp) {
+            case 2:
+                heart3.setIcon(Resource.heartEmpty);
+                break;
+            case 1:
+                heart2.setIcon(Resource.heartEmpty);
+                break;
+            case 0:
+                heart1.setIcon(Resource.heartEmpty);
+                mainCharacter.HP = 0;
+                dispose();
+                break;
+        }
+
+    }
+
+    private void scoreTimer() {
         Timer scoreTimer = new Timer(10, e -> {
             mill++;
-            if(mill == 100){
+            if (mill == 100) {
                 mill = 0;
                 sec++;
             }
-            if(sec == 60){
+            if (sec == 60) {
                 sec = 0;
                 min++;
             }
             timerFrame.setText(min + ":" + sec + ":" + mill);
         });
         scoreTimer.start();
-
-    }
-    private void makeBackground(){
-        setHearts();
-        setTimer();
-        backGround.setIcon(Resource.background);
-        backGround.setBounds(0,0,getWidth(),getHeight());
-        add(backGround);
-
     }
 
-    private void setHearts(){
-        heart1 = new GameThing(this, 0,0 ,Resource.heartFull);
-        heart2 = new GameThing(this, Resource.heartFull.getIconWidth(),0, Resource.heartFull);
-        heart3 = new GameThing(this,2* Resource.heartFull.getIconWidth(),0,Resource.heartFull);
-    }
+    private void checkBOSSHP(int hp) { //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
 
-    private void setGame(){
-        Boss huShawn = new Boss(this );
-        mainCharacter = new MainCharacter(this,huShawn);
-
-        Timer mainCharacterMove = new Timer(30, e -> {setMainCharacterControls();});
-        mainCharacterMove.start();
-
-    }
-
-    private void checkHP(int hp){ //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
-
-        switch (hp){
-
-            case 2: heart3.setIcon(Resource.heartEmpty);
-                break;
-            case 1: heart3.setIcon(Resource.heartEmpty);
-                heart2.setIcon(Resource.heartEmpty);
-                break;
-            case 0: heart1.setIcon(Resource.heartEmpty);
-                heart2.setIcon(Resource.heartEmpty);
-                heart3.setIcon(Resource.heartEmpty);
+        switch (hp) {
+            case 0:
+                huShawn.HP = 0;
+                dispose();
                 break;
         }
-
     }
 
-    /*public static void main(String[] args) {
-        Game game = new Game();
-        StartingWindow test = new StartingWindow();
-    }*/
+    private void setMainCharacterMove() {
+        Timer mainCharacterMove = new Timer(30, e -> {
+            setMainCharacterControls();
+        });
+        mainCharacterMove.start();
+    }
 }

@@ -1,23 +1,28 @@
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * Main Character class is used to control the behaviour of the player controlled maincharacter
+ */
 class MainCharacter extends GameThing {
-
-    private boolean isJump, isLeft, isRight, isShield, atTop, isShoot;
+    //Declaration of variables used in this class
+    public boolean isJump, isLeft, isRight, isShield, atTop, isShoot;
     private byte direction = 1, jumpHeight = 35, counter = 0;
-    private Timer jumpTimer,shootLimit;
+    private Timer jumpTimer, shootLimit;
+    private GameThing boss;
 
-    MainCharacter(JFrame home, GameThing boss) {
-        super(home, 200, home.getHeight()- 155, Resource.mainRestingRight);
+    //Constructor creates and set the maincharacter onto a frame and sets the HP
+    MainCharacter(JFrame home) {
+        super(home, 200, home.getHeight() - 155, Resource.mainRestingRight);
         HP = 3;
-
-        shootLimit = new Timer (500, e-> {
-            counter ++;
-            if(counter == 100000){
+//This timer is used to limit the player's ability to rapidly shoot projectiles
+        shootLimit = new Timer(200, e -> {
+            counter++;
+            if (counter == 100000) {
                 counter = 0;
                 isShoot = true;
             }
-            if(isShoot && !isShield) {
+            if (isShoot && !isShield) {
                 if (direction == -1) {
                     new Projectile(home, this, getX() - Resource.bulletLeft.getIconWidth(), -15, Resource.bulletLeft, boss);
                     isShoot = false;
@@ -29,15 +34,11 @@ class MainCharacter extends GameThing {
             }
         });
         setControls(home.getRootPane());
-
-        /*heart1.setIcon(Resource.heartFull);
-        heart2.setIcon(Resource.heartFull);
-        heart3.setIcon(Resource.heartFull);
-        setHPonFrame(home);*/
-
+//This timer is used to enable the main character to jump
         jumpTimer = new Timer(30, e -> jumping());
     }
 
+    //Method that uses booleans attached to themain character to determine which action the player is looking for
     void move() {
         if (isJump) {
             jump();
@@ -46,20 +47,23 @@ class MainCharacter extends GameThing {
             Left(isRight, isShield);
         }
         if (isShield) {
-            Shield(isRight,isLeft);
+            Shield(isRight, isLeft);
         }
         if (isRight) {
             Right(isLeft, isShield);
         }
-        if(isShoot){
+        if (isShoot) {
             shoot();
         }
 //Pause screen code?
     }
 
+    //Method that starts the jump timer above
     private void jump() {
         jumpTimer.start();
     }
+
+    //Method implemented in jump timer above
     private void jumping() {
 
         if (jumpHeight == 0) {
@@ -80,11 +84,14 @@ class MainCharacter extends GameThing {
         }
     }
 
+    //this method is triggered when the player lets go of the button mapped to allow the main character to move left, it resets the character's icon and boolean to ensure the character stops moving left
     private void Left() {
         setIcon(Resource.mainRestingLeft);
         isLeft = false;
     }
 
+    //this method is triggered when the player presses the button mapped to move the main character left, it updates the icon
+// and the location of the label as well as change the direction integer in order to help the shoot method determine which side to shoot
     private void Left(boolean right, boolean shield) {
         if (!right && !shield) {
             direction = -1;
@@ -93,11 +100,14 @@ class MainCharacter extends GameThing {
         }
     }
 
+    //this method is triggered when the player lets go of the button mapped to allow the main character to move right, it resets the character's icon and boolean to ensure the character stops moving right
     private void Right() {
         setIcon(Resource.mainRestingRight);
         isRight = false;
     }
 
+    //this method is triggered when the player presses the button mapped to move the main character right, it updates the icon
+// and the location of the label as well as change the direction integer in order to help the shoot method determine which side to shoot
     private void Right(boolean left, boolean shield) {
         if (!left && !shield) {
             direction = 1;
@@ -106,6 +116,7 @@ class MainCharacter extends GameThing {
         }
     }
 
+    //this method is triggered when the player lets go of the button mapped to allow the main character to shield, it resets the character's icon and boolean to ensure the character stops shielding
     private void Shield() {
         isShield = false;
         if (isLeft) {
@@ -114,18 +125,24 @@ class MainCharacter extends GameThing {
         setIcon(Resource.mainRestingRight);
     }
 
+    //this method is triggered when the player presses the button mapped to shield, it sets the direction booleans to false to ensure the player cannot abuse shield and move while shielding
+    //this method also updates the icon
     private void Shield(boolean right, boolean left) {
         right = false;
         left = false;
         setIcon(Resource.mCShield);
     }
 
-    private void shoot(){
+    //this method is triggered when the player presses the button mapped to shoot, it starts the timer above that controls the shooting behaviour
+    private void shoot() {
         shootLimit.start();
     }
 
-    private void releasedShoot(){}
+    //this method terminates the shooting when the player releases the button mapped to shoot
+    private void releasedShoot() {
+    }
 
+    //this method maps the controls to the desired keys
     void setControls(JComponent RootPane) {
 
         addKeyBinder(RootPane, KeyEvent.VK_ESCAPE, "escape", escape -> System.exit(0), null);
@@ -141,6 +158,7 @@ class MainCharacter extends GameThing {
         addKeyBinder(RootPane, KeyEvent.VK_ENTER, "shoot", pressedEnter -> isShoot = true, releasedEnter -> releasedShoot());
     }
 
+    //this method creates the keybinders to be used in mapping the controls
     private void addKeyBinder(JComponent jComponent, int keyCode, String id, ActionListener actionListener, ActionListener releasedListener) {
 
         InputMap inputMap = jComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -164,11 +182,8 @@ class MainCharacter extends GameThing {
 
     }
 
-    int getHP() {
-        return HP;
-    }
+    public void setBoss(GameThing dong) {
 
-    public void setHP(byte health) {
-        HP = health;
+        boss = dong;
     }
 }
