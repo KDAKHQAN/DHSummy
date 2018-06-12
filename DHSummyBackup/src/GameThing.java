@@ -38,4 +38,15 @@ public class GameThing extends JLabel {
     public void setDamaging(boolean damage){
         damaging = damage;
     }
+
+    public void decHP() {
+
+        if (HP > 0) {
+
+            HP--;
+
+        }
+
+    }
+
 }

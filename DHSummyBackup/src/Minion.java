@@ -29,7 +29,6 @@ public class Minion extends GameThing {
                 character.HP--;
                 home.remove(this);
                 damaging = false;
-                System.out.println(character.HP);
             }
         });
         collisionTimer.start();

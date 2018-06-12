@@ -1,10 +1,15 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+
 /**This class controls the way the boss's projectiles behave in the game*/
 public class BossProjectile extends GameThing{
     boolean damaging = true;
     //Constructor creates and sets the projectile on the screen then calls the method that moves the projectile
     BossProjectile(JFrame home, int yLoc, int xVel, MainCharacter MC) {
         super(home, 800, yLoc, Resource.bossProjectile);
+        Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
+        setBorder(border);
         collides(MC);
         move(xVel, home);
     }
@@ -12,7 +17,8 @@ public class BossProjectile extends GameThing{
     private void move(int xVel, JFrame home){
         Timer HeartAttackTimer = new Timer(30, e -> {
             setLocation(getBounds().x - xVel, getBounds().y+3);
-            if(getY()>home.getHeight()-100){
+            if(getY()>home.getHeight()-50-getHeight()){
+                setLocation(getX(),1000);
                 home.remove(this);
             }
         });
@@ -24,7 +30,6 @@ public class BossProjectile extends GameThing{
                 character.HP--;
                 home.remove(this);
                 damaging = false;
-                System.out.println(character.HP);
             }
         });
         collisionTimer.start();

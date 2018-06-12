@@ -23,7 +23,7 @@
                     <bossKissing>Resources/Lust/HeartProjectileAttack/FaceAnimation/Kiss_Attack.gif</bossKissing>
                 </FaceAnimation>
                 <Projectile>
-                    <bossProjectile>Resources/Lust/HeartProjectileAttack/Projectile/sprite_Heart_Projectile0.png</bossProjectile>
+                    <bossProjectile>Resources/Lust/HeartProjectileAttack/Projectile/Heart_Projectile.gif</bossProjectile>
                 </Projectile>
             </HeartProjectileAttack>
 

@@ -38,19 +38,20 @@ class MainCharacter extends GameThing {
         jumpTimer = new Timer(30, e -> jumping());
     }
 
+
     //Method that uses booleans attached to themain character to determine which action the player is looking for
     void move() {
         if (isJump) {
             jump();
         }
         if (isLeft) {
-            Left(isRight, isShield);
+            left(isRight, isShield);
         }
         if (isShield) {
-            Shield(isRight, isLeft);
+            shield(isRight, isLeft);
         }
         if (isRight) {
-            Right(isLeft, isShield);
+            right(isLeft, isShield);
         }
         if (isShoot) {
             shoot();
@@ -85,14 +86,14 @@ class MainCharacter extends GameThing {
     }
 
     //this method is triggered when the player lets go of the button mapped to allow the main character to move left, it resets the character's icon and boolean to ensure the character stops moving left
-    private void Left() {
+    private void left() {
         setIcon(Resource.mainRestingLeft);
         isLeft = false;
     }
 
     //this method is triggered when the player presses the button mapped to move the main character left, it updates the icon
 // and the location of the label as well as change the direction integer in order to help the shoot method determine which side to shoot
-    private void Left(boolean right, boolean shield) {
+    private void left(boolean right, boolean shield) {
         if (!right && !shield) {
             direction = -1;
             setIcon(Resource.mainRunningLeft);
@@ -101,14 +102,14 @@ class MainCharacter extends GameThing {
     }
 
     //this method is triggered when the player lets go of the button mapped to allow the main character to move right, it resets the character's icon and boolean to ensure the character stops moving right
-    private void Right() {
+    private void right() {
         setIcon(Resource.mainRestingRight);
         isRight = false;
     }
 
     //this method is triggered when the player presses the button mapped to move the main character right, it updates the icon
 // and the location of the label as well as change the direction integer in order to help the shoot method determine which side to shoot
-    private void Right(boolean left, boolean shield) {
+    private void right(boolean left, boolean shield) {
         if (!left && !shield) {
             direction = 1;
             setIcon(Resource.mainRunningRight);
@@ -117,7 +118,7 @@ class MainCharacter extends GameThing {
     }
 
     //this method is triggered when the player lets go of the button mapped to allow the main character to shield, it resets the character's icon and boolean to ensure the character stops shielding
-    private void Shield() {
+    private void shield() {
         isShield = false;
         if (isLeft) {
             setIcon(Resource.mainRestingLeft);
@@ -127,7 +128,7 @@ class MainCharacter extends GameThing {
 
     //this method is triggered when the player presses the button mapped to shield, it sets the direction booleans to false to ensure the player cannot abuse shield and move while shielding
     //this method also updates the icon
-    private void Shield(boolean right, boolean left) {
+    private void shield(boolean right, boolean left) {
         right = false;
         left = false;
         setIcon(Resource.mCShield);
@@ -147,13 +148,13 @@ class MainCharacter extends GameThing {
 
         addKeyBinder(RootPane, KeyEvent.VK_ESCAPE, "escape", escape -> System.exit(0), null);
 //TODO: 29th May 2018: FIND MORE EFFICIENT METHOD TO STOP MOVING AND SET ICONS
-        addKeyBinder(RootPane, KeyEvent.VK_A, "go left", pressedL -> isLeft = true, releasedL -> Left());
+        addKeyBinder(RootPane, KeyEvent.VK_A, "go left", pressedL -> isLeft = true, releasedL -> left());
 
-        addKeyBinder(RootPane, KeyEvent.VK_D, "go right", pressedR -> isRight = true, releasedR -> Right());
+        addKeyBinder(RootPane, KeyEvent.VK_D, "go right", pressedR -> isRight = true, releasedR -> right());
 
         addKeyBinder(RootPane, KeyEvent.VK_W, "go up", pressedW -> isJump = true, releasedW -> isJump = false);
 
-        addKeyBinder(RootPane, KeyEvent.VK_S, "go block", pressedS -> isShield = true, releasedS -> Shield());
+        addKeyBinder(RootPane, KeyEvent.VK_S, "go block", pressedS -> isShield = true, releasedS -> shield());
 
         addKeyBinder(RootPane, KeyEvent.VK_ENTER, "shoot", pressedEnter -> isShoot = true, releasedEnter -> releasedShoot());
     }

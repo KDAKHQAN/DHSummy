@@ -12,7 +12,7 @@ class Boss extends GameThing {
     Boss(JFrame home) {
         super(home, home.getWidth() - Resource.bossRest.getIconWidth() + 50, home.getHeight() - Resource.bossRest.getIconHeight() - 56, Resource.bossRest);
 //        Attack(MC);
-        HP = 100;
+        HP = 50;
     }
 
     //one of the bosses attacks, launches three damaging projectiles each at different angles
@@ -37,13 +37,13 @@ class Boss extends GameThing {
             if (counter == 5) {
                 setIcon(Resource.bossRest);
             }
-            if (counter == 20) {
+            if (counter == 10) {
                 HeartProjectileAttack(home, MC);
             }
-            if (counter == 27) {
+            if (counter == 15) {
                 setIcon(Resource.bossRest);
             }
-            if (counter == 35) {
+            if (counter == 20) {
                 CreepAttack(home);
                 counter = 0;
             }
@@ -54,4 +54,5 @@ class Boss extends GameThing {
     public void setMC(MainCharacter ding ){
         MC = ding;
     }
+
 }

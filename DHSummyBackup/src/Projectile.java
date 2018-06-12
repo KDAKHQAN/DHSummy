@@ -30,10 +30,9 @@ public class Projectile extends GameThing {
     public void collides(GameThing boss) {
         Timer collisionTimer = new Timer(10, e -> {
             if (this.getBounds().intersects(boss.getBounds()) && getDamaging()) {
-                boss.HP--;
+                boss.decHP();
                 home.remove(this);
                 setDamaging(false);
-                System.out.println(boss.HP);
             }
         });
         collisionTimer.start();

@@ -10,20 +10,22 @@ public class StartingWindow extends SuperFrame {
     //Declaration of variables used in this class
     private JLabel title = new JLabel("DH SUMMY");
     private JButton start = new JButton("Start"), score = new JButton("Score"), quit = new JButton("Quit");
-    private ActionListener quitAct = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
+    private HighScore highWindow = new HighScore();
+    private ActionListener quitAct = e-> {
             System.exit(0);
-        }
-    }, play = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
+    }, play = e-> {
             new Game();
-        }
+    }, high = e->{
+
+        setVisible(false);
+        highWindow.setVisible(true);
+
     };
 
     //default constructor uses super constructor to create frame then adds title and buttons to it
     StartingWindow() {
+
         super();
-        getContentPane().setBackground(Color.BLACK);
         title.setBounds(50, 50, getWidth(), 50);
         title.setOpaque(false);
         title.setFont(new Font("Monospaced", Font.BOLD, 50));
@@ -31,8 +33,9 @@ public class StartingWindow extends SuperFrame {
         add(title);
 
         setJButton(start, 320, play);
-        setJButton(score, 352, null);
+        setJButton(score, 352, high);
         setJButton(quit, 384, quitAct);
+        setVisible(true);
     }
 
     //Method to create and set the button and its functions onto the JFrame

@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
  * Game Class contains all the parts and objects needed to run the application (game logic)
@@ -13,6 +12,8 @@ public class Game extends SuperFrame {
     private MainCharacter mainCharacter;
     private Boss huShawn;
     private GameThing heart1, heart2, heart3;
+    private String scoreTime = "";
+    private Read_Write rw = new Read_Write();
 
     //Default constructor inherits superclass (SuperFrame) to create the jframe then add all of the components needed for the game
     Game() {
@@ -97,7 +98,8 @@ public class Game extends SuperFrame {
                 sec = 0;
                 min++;
             }
-            timerFrame.setText(min + ":" + sec + ":" + mill);
+            scoreTime = min + ":" + sec + ":" + mill;
+            timerFrame.setText(scoreTime);
         });
         scoreTimer.start();
     }
@@ -105,7 +107,10 @@ public class Game extends SuperFrame {
     private void checkBOSSHP(int hp) { //TODO: Too much work to make efficient, try using array of JLabels to reduce amount of if-statements
 
         switch (hp) {
-            case 0:
+            case 40:
+
+                int temp = timeToInt(min, sec, mill);
+                rw.writeMessage(scoreTime, temp);
                 huShawn.HP = 0;
                 dispose();
                 break;
@@ -117,5 +122,11 @@ public class Game extends SuperFrame {
             setMainCharacterControls();
         });
         mainCharacterMove.start();
+    }
+
+    private int timeToInt(int min, int sec, int mill) {
+
+        return min * 3600 + sec * 60 + mill;
+
     }
 }
